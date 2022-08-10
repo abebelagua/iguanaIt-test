@@ -1,5 +1,5 @@
 import { Box, Card, Container } from '@mui/material'
-import styled from '@mui/material/styles/styled'
+import styled from '@emotion/styled'
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
@@ -20,9 +20,6 @@ const MainContent = styled(Box)(
     width: 100%;
     display: flex;
     align-items: center;
-    ${theme.breakpoints.down('md')} {
-        padding-left: 0;
-    }
 `
 )
 
@@ -32,14 +29,14 @@ const Login: NextPage = () => {
 			<Content>
 				<MainContent>
 					<Container maxWidth="sm">
-						{/* <Logo centered /> */}
+						<Logo centered />
 						<Card
 							sx={{
 								p: 4,
 								my: 4,
 							}}
 						>
-							{/* <SocialLogin /> */}
+							<SocialLogin />
 						</Card>
 					</Container>
 				</MainContent>
