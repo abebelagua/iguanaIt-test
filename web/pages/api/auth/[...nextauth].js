@@ -1,4 +1,3 @@
-import axios from 'axios'
 import NextAuth from 'next-auth'
 import GithubProvider from 'next-auth/providers/github'
 
@@ -9,22 +8,21 @@ export default NextAuth({
 			clientSecret: process.env.GITHUB_CLIENT_SECRET,
 		}),
 	],
-	// pages: {
-	// 	signIn: '/login',
-	// 	error: '/login',
-	// },
 	callbacks: {
-		// async signIn(user, account, profile) { return true },
-		// async redirect(url, baseUrl) { return baseUrl },
-		session: (session, user) => {
-			console.log(session)
-			// session.user = user.user
+		jwt: (token, user, account, profile, isNewUser) => {
+			if (isNewUser) {
+				//Todo: add user to database
+			}
+		},
+		session: async ({ session, token, user }) => {
+			session = {
+				...session,
+				user: {
+					id: token.sub,
+					...session.user,
+				},
+			}
 			return session
 		},
-		jwt: (token, user) => {
-			user && (token.user = user)
-			return token
-		},
 	},
-	debug: true,
 })

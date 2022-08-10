@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import SocialLogin from '../../features/auth/components/auth-login'
 import Logo from '../../features/auth/components/logo'
+import { useSession } from 'next-auth/react'
 
 const Content = styled(Box)(
 	() => `
@@ -16,7 +17,6 @@ const Content = styled(Box)(
 
 const MainContent = styled(Box)(
 	({ theme }) => `
-    padding-left: 500px;
     width: 100%;
     display: flex;
     align-items: center;
@@ -24,6 +24,17 @@ const MainContent = styled(Box)(
 )
 
 const Login: NextPage = () => {
+	const { data: session, status } = useSession()
+	const authenticated = status === 'authenticated'
+	const router = useRouter()
+
+	useEffect(() => {
+		console.log(session)
+		if (authenticated) {
+			router.push('/dashboard')
+		}
+	}, [authenticated])
+
 	return (
 		<>
 			<Content>

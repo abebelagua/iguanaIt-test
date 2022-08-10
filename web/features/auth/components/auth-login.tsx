@@ -26,7 +26,6 @@ const SocialLogin: NextPage = () => {
 		const authenticated = await signIn(connection, {
 			callbackUrl: 'http://localhost:3000/dashboard',
 		})
-
 		if (!authenticated?.ok && authenticated?.error) {
 			console.error(authenticated.error)
 			setError(authenticated.error)

@@ -4,8 +4,8 @@ import { NextComponentType } from 'next'
 import { SessionProvider } from 'next-auth/react'
 
 import { CacheProvider, EmotionCache } from '@emotion/react'
-import { ThemeProvider, CssBaseline } from '@mui/material'
-import lightTheme from '../styles/theme/lightTheme'
+import { ThemeProvider } from '@mui/material/styles'
+import darkTheme from '../styles/theme/darkTheme'
 import createEmotionCache from '../utils/createEmotionCache'
 
 import Auth from '../features/auth/components/auth'
@@ -26,7 +26,7 @@ function MyApp({
 }: CustomAppProps) {
 	return (
 		<CacheProvider value={emotionCache}>
-			<ThemeProvider theme={lightTheme}>
+			<ThemeProvider theme={darkTheme}>
 				<SessionProvider session={session}>
 					{Component.auth ? (
 						<Auth>
