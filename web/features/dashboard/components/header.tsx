@@ -5,15 +5,14 @@ import Toolbar from '@mui/material/Toolbar'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import Menu from '@mui/material/Menu'
-import MenuIcon from '@mui/icons-material/Menu'
 import Container from '@mui/material/Container'
 import Avatar from '@mui/material/Avatar'
-import Button from '@mui/material/Button'
 import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
 import { NextPage } from 'next'
 import Image from 'next/image'
 import { signOut, useSession } from 'next-auth/react'
+import OneSignal from 'react-onesignal'
 
 const Header: NextPage = () => {
 	const { data: session, status } = useSession()
