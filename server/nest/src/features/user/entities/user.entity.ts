@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { IKVPair } from '../../../common/interfaces';
 
 import { TrackedEntity } from '../../../common';
 import { IUser } from '../interfaces';
@@ -38,6 +39,12 @@ export class User extends TrackedEntity implements IUser {
 	 */
 	@Prop({ required: false, default: '' })
 	image: string;
+
+	/**
+	 * User tags
+	 */
+	@Prop({ required: false, default: [] })
+	tags: IKVPair[];
 }
 
 /**

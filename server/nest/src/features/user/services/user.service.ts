@@ -112,6 +112,29 @@ export class UserService {
 		return user;
 	}
 
+	/**
+	 * Add tag to user
+	 * @param id User id
+	 * @param key Tag key
+	 * @param value Tag value
+	 * @returns User deleted
+	 */
+	async addTagToUser(id: string, key: string, value: string) {
+		const user = await this.userModel.findById(id);
+
+		return await this.userModel.findByIdAndUpdate(
+			id,
+			{
+				tags: [...user.tags, { key, value }],
+				updatedBy: user.id,
+				updatedAt: new Date()
+			},
+			{
+				new: true
+			}
+		);
+	}
+
 	watch(
 		pipeline?: Array<Record<string, unknown>>,
 		options?: ChangeStreamOptions

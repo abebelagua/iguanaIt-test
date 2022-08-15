@@ -1,6 +1,6 @@
-import { HasFullTracking, HasId } from '../../../common/interfaces';
+import { HasFullTracking, HasHexId, IKVPair } from '../../../common/interfaces';
 
-export interface IUser extends HasId, HasFullTracking {
+export interface IUser extends HasHexId, HasFullTracking {
 	/**
 	 * One Signal ID assigned to the user.
 	 */
@@ -25,4 +25,9 @@ export interface IUser extends HasId, HasFullTracking {
 	 * Image url
 	 */
 	image: string;
+
+	/**
+	 * User tags
+	 */
+	tags: IKVPair[];
 }
