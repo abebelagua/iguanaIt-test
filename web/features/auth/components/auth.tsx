@@ -15,8 +15,6 @@ const Auth: NextPage<AuthProps> = ({ children }) => {
 	const router = useRouter()
 
 	useEffect(() => {
-		console.log(session)
-		console.log(status)
 		if (!loading && !hasUser) {
 			router.push('/login')
 		}

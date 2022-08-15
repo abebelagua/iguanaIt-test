@@ -4,12 +4,12 @@ import { HYDRATE } from 'next-redux-wrapper'
 
 import type { AppState } from '../../state/store'
 
-import { User } from './models/user.model'
+import { IUser } from './interfaces'
 
 interface AuthState {
 	isInitialized: boolean
 	isAuthenticated: boolean
-	user?: User
+	user?: IUser
 }
 
 const initialState: AuthState = {
@@ -21,7 +21,7 @@ export const authSlice = createSlice({
 	name: 'auth',
 	initialState,
 	reducers: {
-		setUser(state, action: PayloadAction<User | undefined>) {
+		setUser(state, action: PayloadAction<IUser | undefined>) {
 			state.isInitialized = true
 			state.isAuthenticated = !!action.payload
 			state.user = action.payload

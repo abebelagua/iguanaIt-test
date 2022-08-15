@@ -7,6 +7,11 @@ import OneSignalReact from 'react-onesignal'
 import Header from '../../features/dashboard/components/header'
 import DataTable from '../../features/dashboard/components/user-table'
 import crypto from 'crypto'
+declare global {
+	interface Window {
+		OneSignal: any
+	}
+}
 
 //Todo move to backend
 const generateAuthHash = (data: string) => {
@@ -23,35 +28,46 @@ const Dashboard: NextPage & { auth?: boolean } = () => {
 	const [initialized, setInitialized] = useState(false)
 
 	useEffect(() => {
-		OneSignalReact.init({
-			appId: 'a4381c6a-4ecd-490c-8926-6ec7c9997651',
-		}).then(() => {
-			setInitialized(true)
-			OneSignalReact.showSlidedownPrompt()
-			OneSignalReact.isPushNotificationsEnabled(async (isEnabled) => {
-				if (isEnabled) {
-					console.log('Push notifications are enabled')
-					await OneSignalReact.setExternalUserId(
-						session?.user?.id,
-						generateAuthHash(session?.user?.id as string)
-					)
-					await OneSignalReact.setEmail(session?.user?.email || '', {
-						emailAuthHash: generateAuthHash(
-							session?.user?.email || ''
-						),
-					})
-					await axios.post('http://localhost:4000/user', {
-						oneSignalId: await OneSignalReact.getUserId(),
-						externalUserId: session?.user?.id,
-						name: session?.user?.name,
-						email: session?.user?.email,
-						image: session?.user?.image,
-					})
-				} else {
-					console.log('Push notifications are not enabled yet.')
-				}
+		window.OneSignal = window.OneSignal || []
+		if (!window.OneSignal) {
+			OneSignalReact.init({
+				appId: 'a4381c6a-4ecd-490c-8926-6ec7c9997651',
+				notifyButton: {
+					enable: true,
+				},
+			}).then(() => {
+				setInitialized(true)
+				OneSignalReact.showSlidedownPrompt()
+				OneSignalReact.isPushNotificationsEnabled(async (isEnabled) => {
+					if (isEnabled) {
+						console.log('Push notifications are enabled')
+						await OneSignalReact.setExternalUserId(
+							session?.user?.id,
+							generateAuthHash(session?.user?.id as string)
+						)
+						await OneSignalReact.setEmail(
+							session?.user?.email || '',
+							{
+								emailAuthHash: generateAuthHash(
+									session?.user?.email || ''
+								),
+							}
+						)
+						await axios.post('http://localhost:4000/user', {
+							oneSignalId: await OneSignalReact.getUserId(),
+							externalUserId: session?.user?.id,
+							name: session?.user?.name,
+							email: session?.user?.email,
+							image: session?.user?.image,
+						})
+					} else {
+						console.log('Push notifications are not enabled yet.')
+					}
+				})
 			})
-		})
+		} else {
+			setInitialized(true)
+		}
 	}, [])
 
 	if (!initialized) {
@@ -82,7 +98,7 @@ const Dashboard: NextPage & { auth?: boolean } = () => {
 				sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
 			>
 				<Toolbar />
-				<DataTable></DataTable>
+				<DataTable initialized={initialized}></DataTable>
 			</Box>
 		</Box>
 	)

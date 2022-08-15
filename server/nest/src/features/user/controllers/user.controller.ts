@@ -62,4 +62,17 @@ export class UserController {
 	delete(@Param('id') id: string) {
 		return this.userService.remove(id);
 	}
+
+	@Post(':id/:key/:value')
+	@ApiOperation({
+		operationId: 'add tag to user',
+		summary: 'Add tag to user using key-value'
+	})
+	addTagToUser(
+		@Param('id') id: string,
+		@Param('key') key: string,
+		@Param('value') value: string
+	) {
+		return this.userService.addTagToUser(id, key, value);
+	}
 }

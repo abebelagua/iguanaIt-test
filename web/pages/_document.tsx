@@ -13,8 +13,8 @@ export default class MyDocument extends Document {
 						href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
 					/>
 					<script
-						src="http://localhost:3000/OneSignalSDK.js"
-						async={true}
+						src="https://cdn.onesignal.com/sdks/OneSignalSDK.js"
+						async
 					></script>
 				</Head>
 				<body>
