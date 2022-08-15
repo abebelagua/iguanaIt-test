@@ -19,9 +19,9 @@ import java.util.*;
 @Service("NotificationServiceImpl")
 public class NotificationServiceImpl implements NotificationService {
 
-    private String REST_API_KEY = "";
-    private String APP_ID = "";
-    private String ONE_SIGNAL_URL = "https://onesignal.com/api/v1/notifications";
+    private final String REST_API_KEY = "M2Q2YjhiZmItMTVmMy00NjVlLWE2OGMtMzk2M2M0NzVmMTA1";
+    private final String APP_ID = "a4381c6a-4ecd-490c-8926-6ec7c9997651";
+    private final String ONE_SIGNAL_URL = "https://onesignal.com/api/v1/notifications";
 
     private final NotificationRepository notificationRepository;
 
@@ -122,6 +122,28 @@ public class NotificationServiceImpl implements NotificationService {
         return result;
     }
 
+    @Override
+    public String sendMessageToUsersUsingDataTag(String key, String value, String message) throws IOException {
+        var connection = createConnection();
+        var jsonBody = generateJsonBodyDataTag(key, value, message);
+
+        byte[] bytes = enableStreamingAndCreateByteArray(connection, jsonBody);
+
+        String result = sendRequest(connection, bytes);
+
+        OneSignalResponse oneSignalResponse = new ObjectMapper().readValue(result, OneSignalResponse.class);
+
+        Notification notification = new Notification();
+        notification.withOneSignalId(oneSignalResponse.getId())
+                .withMessage(message)
+                .withTagKey(key)
+                .withTagValue(value)
+                .withJsonBody(jsonBody);
+        this.create(notification);
+
+        return result;
+    }
+
     public HttpURLConnection createConnection() throws IOException {
         var url = new URL(ONE_SIGNAL_URL);
         var connection = url.openConnection();
@@ -134,14 +156,14 @@ public class NotificationServiceImpl implements NotificationService {
         connection.setDoOutput(true);
         connection.setDoInput(true);
         connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-        connection.setRequestProperty("Authorization", "Basic M2Q2YjhiZmItMTVmMy00NjVlLWE2OGMtMzk2M2M0NzVmMTA1");
+        connection.setRequestProperty("Authorization", "Basic " + REST_API_KEY);
         connection.setRequestMethod("POST");
     }
 
     public String generateJsonBody(String userId, String message) {
         return userId == null ? """
                 {
-                    "app_id": "a4381c6a-4ecd-490c-8926-6ec7c9997651",
+                    "app_id": "%s",
                     "included_segments": ["Subscribed Users"],
                     "data": {
                         "foo": "bar"  
@@ -150,9 +172,9 @@ public class NotificationServiceImpl implements NotificationService {
                         "en": "%s"
                     }
                 }
-                """.formatted(message) : """
+                """.formatted(APP_ID, message) : """
                 {
-                    "app_id": "a4381c6a-4ecd-490c-8926-6ec7c9997651",
+                    "app_id": "%s",
                     "include_external_user_ids": ["%s"],
                     "channel_for_external_user_ids": "push",
                     "data": {
@@ -162,7 +184,22 @@ public class NotificationServiceImpl implements NotificationService {
                         "en": "%s"
                     }
                 }
-                """.formatted(userId, message);
+                """.formatted(APP_ID, userId, message);
+    }
+
+    public String generateJsonBodyDataTag(String key, String value, String message) {
+        return """
+                {
+                    "app_id": "%s",
+                    "filters": [{"field": "tag", "key": "%s", "relation": "=", "value": "%s"}],
+                    "data": {
+                        "foo": "bar"  
+                    },
+                    "contents": {
+                        "en": "%s"
+                    }
+                }
+                """.formatted(APP_ID, key, value, message);
     }
 
     public byte[] enableStreamingAndCreateByteArray(HttpURLConnection connection, String jsonBody) {

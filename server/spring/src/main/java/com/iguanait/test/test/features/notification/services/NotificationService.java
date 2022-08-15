@@ -18,4 +18,6 @@ public interface NotificationService {
     String sendMessageToAllUsers(String message) throws Exception;
 
     String sendMessageToUser(String userId, String message) throws Exception;
+
+    String sendMessageToUsersUsingDataTag(String key, String value, String message) throws Exception;
 }

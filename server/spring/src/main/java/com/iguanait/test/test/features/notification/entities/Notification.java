@@ -15,7 +15,13 @@ public class Notification {
     private String oneSignalId;
 
     @Column(name = "external_user_id")
-    private String externalUserId;
+    private String externalUserId = "";
+
+    @Column(name = "tag_value")
+    private String tagKey = "";
+
+    @Column(name = "tag_key")
+    private String tagValue = "";
 
     @Column(name = "message")
     private String message;
@@ -47,6 +53,22 @@ public class Notification {
         this.externalUserId = externalUserId;
     }
 
+    public String getTagKey() {
+        return tagKey;
+    }
+
+    public void setTagKey(String tagKey) {
+        this.tagKey = tagKey;
+    }
+
+    public String getTagValue() {
+        return tagValue;
+    }
+
+    public void setTagValue(String tagValue) {
+        this.tagValue = tagValue;
+    }
+
     public String getMessage() {
         return message;
     }
@@ -75,6 +97,15 @@ public class Notification {
 
     public Notification withExternalUserId(String externalUserId) {
         this.setExternalUserId(externalUserId);
+        return this;
+    }
+
+    public Notification withTagKey(String tagKey) {
+        this.setTagKey(tagKey);
+        return this;
+    }
+    public Notification withTagValue(String tagValue) {
+        this.setTagValue(tagValue);
         return this;
     }
 

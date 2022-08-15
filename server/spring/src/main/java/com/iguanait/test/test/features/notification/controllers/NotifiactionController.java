@@ -18,36 +18,49 @@ public class NotifiactionController {
     }
 
     @GetMapping
+    @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     Page<Notification> getAll(@PageableDefault(value = 20, sort = "id") Pageable pageable) {
         return this.notificationService.getAll(pageable);
     }
 
     @GetMapping
+    @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     Notification getOne(@PathVariable("id") Integer id) {
         return this.notificationService.getOne(id);
     }
 
     @PostMapping
+    @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     Notification create(@RequestBody Notification notification) throws Exception {
         return this.notificationService.create(notification);
     }
 
     @PostMapping
+    @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value = "/sendToAll/{message}", method = RequestMethod.POST)
     String sendToAll(@PathVariable("message") String message) throws Exception {
         return this.notificationService.sendMessageToAllUsers(message);
     }
 
     @PostMapping
+    @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value = "/sendToOne/{userId}/{message}", method = RequestMethod.POST)
     String sendToOne(@PathVariable("userId") String userId, @PathVariable("message") String message) throws Exception {
         return this.notificationService.sendMessageToUser(userId, message);
     }
 
+    @PostMapping
+    @CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping(value = "/sendWithTag/{key}/{value}/{message}", method = RequestMethod.POST)
+    String sendWithTag(@PathVariable("key") String key, @PathVariable("value") String value, @PathVariable("message") String message) throws Exception {
+        return this.notificationService.sendMessageToUsersUsingDataTag(key, value, message);
+    }
+
     @PutMapping
+    @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     Notification update(@PathVariable("id") Integer id,
                         @RequestBody Notification notification)
@@ -56,6 +69,7 @@ public class NotifiactionController {
     }
 
     @DeleteMapping
+    @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     Notification delete(@PathVariable("id") Integer id) throws Exception {
         return this.notificationService.delete(id);
