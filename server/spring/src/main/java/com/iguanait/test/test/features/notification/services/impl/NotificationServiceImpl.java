@@ -19,7 +19,7 @@ import java.util.*;
 @Service("NotificationServiceImpl")
 public class NotificationServiceImpl implements NotificationService {
 
-    private final String REST_API_KEY = "M2Q2YjhiZmItMTVmMy00NjVlLWE2OGMtMzk2M2M0NzVmMTA1";
+    private final String REST_API_KEY = "ZjZhYWMzMTgtYzczMi00MDIxLWE4N2MtMWY4MzUyNWVkMmY2";
     private final String APP_ID = "a4381c6a-4ecd-490c-8926-6ec7c9997651";
     private final String ONE_SIGNAL_URL = "https://onesignal.com/api/v1/notifications";
 

@@ -17,6 +17,7 @@ configurations {
 
 repositories {
 	mavenCentral()
+	mavenLocal()
 }
 
 ext {
@@ -30,23 +31,14 @@ dependencies {
 	runtimeOnly 'org.postgresql:postgresql:42.3.6'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test:2.7.2'
+	testImplementation 'junit:junit:4.4'
 
 	//Map structs dependencies to handle bind annotations
 	implementation 'org.mapstruct:mapstruct:1.5.2.Final'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.2.Final'
 
+//	implementation "org.openapitools:onesignal-java-client:1.0.1"
 	implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.3'
-
-//	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc:2.7.2'
-//	implementation 'org.springframework.boot:spring-boot-starter-data-rest:2.7.2'
-//	implementation 'org.springframework.boot:spring-boot-starter-jdbc:2.7.2'
-//	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client:2.7.2'
-//	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server:2.7.2'
-//	implementation 'org.springframework.boot:spring-boot-starter-security:2.7.2'
-//	implementation 'org.springframework.boot:spring-boot-starter-validation:2.7.2'
-//	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor:2.7.2'
-//	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc:2.0.6.RELEASE'
-//	testImplementation 'org.springframework.security:spring-security-test:5.7.2'
 }
 
 tasks.named('test') {

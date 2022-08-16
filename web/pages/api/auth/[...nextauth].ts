@@ -10,9 +10,6 @@ export default NextAuth({
 	],
 	callbacks: {
 		jwt: ({ token, user, account, profile, isNewUser }) => {
-			if (isNewUser) {
-				//Todo: add user to database
-			}
 			return token
 		},
 		session: async ({ session, token, user }) => {
